@@ -12,10 +12,10 @@
 
 #import <PureLayout.h>
 
-@interface FeedbackView()<FeedbackSubviewDelegate>
+@interface FeedbackView()<FeedbackSubviewDelegate, FeedbackMoveSubviewDelegate>
 
 @property (nonatomic, strong) UIView *line;
-@property (nonatomic, strong) FeedbackSubview *moveView;
+@property (nonatomic, strong) FeedbackMoveSubview *currentView;
 @property (nonatomic, strong) NSMutableArray *views;
 
 @end
@@ -48,8 +48,9 @@
     [self addSubview:_line];
     [self sendSubviewToBack:_line];
     
-    _moveView = [FeedbackSubview newAutoLayoutView];
-    [self addSubview:_moveView];
+    _currentView = [FeedbackMoveSubview newAutoLayoutView];
+    _currentView.delegate = self;
+    [self addSubview:_currentView];
 }
 
 - (void)reloadView {
@@ -58,10 +59,14 @@
     }
     
     FeedbackSubview *previousSubview;
-    NSInteger totalRows = ([self.datasource numberOfRows] - 1);
+    NSInteger totalRows = [self.datasource numberOfRows];
     for (int i = 0 ; i < totalRows; i++) {
         FeedbackSubview *subView = [[FeedbackSubview alloc] initWithDelegate:self];
         [self addSubview:subView];
+        
+        subView.unselectedImage = [_datasource imageForUnselectedViewAtRow:i];
+        subView.selectedImage = [_datasource imageForSelectedViewAtRow:i];
+        subView.feedbackTitleLabel.text = [_datasource titleForSelectedViewAtRow:i];
         
         // Setup Constraints
         [subView autoPinEdgeToSuperviewEdge:ALEdgeTop];
@@ -82,6 +87,13 @@
         previousSubview = subView;
         [_views addObject:subView];
     }
+    
+    if (_defaultRow) {
+        _currentView.image = [_datasource imageForSelectedViewAtRow:_defaultRow];
+    }
+    
+    [self sendSubviewToBack:_line];
+    [self bringSubviewToFront:_currentView];
     [self setupConstraint];
 }
 
@@ -90,14 +102,19 @@
         return;
     }
     
-    [_moveView autoSetDimension:ALDimensionHeight toSize:[_delegate sizeForMoveView].height];
-    [_moveView autoSetDimension:ALDimensionWidth toSize:[_delegate sizeForMoveView].width];
+    [_currentView autoSetDimension:ALDimensionHeight toSize:[_delegate sizeForMoveView].height];
+    [_currentView autoSetDimension:ALDimensionWidth toSize:[_delegate sizeForMoveView].width];
     
     FeedbackSubview *firstView = _views.firstObject;
     FeedbackSubview *lastView = _views.lastObject;
     
-    [_moveView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:firstView];
-    [_moveView autoAlignAxis:ALAxisVertical toSameAxisOfView:firstView];
+    if (_defaultRow) {
+        [_currentView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:[_views objectAtIndex:_defaultRow]];
+        [_currentView autoAlignAxis:ALAxisVertical toSameAxisOfView:[_views objectAtIndex:_defaultRow]];
+    } else {
+        [_currentView autoAlignAxis:ALAxisHorizontal toSameAxisOfView:firstView];
+        [_currentView autoAlignAxis:ALAxisVertical toSameAxisOfView:firstView];
+    }
     
     [_line autoPinEdge:ALEdgeLeft toEdge:ALEdgeLeft ofView:firstView.feedbackImageView];
     [_line autoPinEdge:ALEdgeRight toEdge:ALEdgeRight ofView:lastView.feedbackImageView];
@@ -105,15 +122,43 @@
     [_line autoAlignAxisToSuperviewAxis:ALAxisHorizontal];
 }
 
+#pragma mark - FeedbackSubviewDelegate
+
 -(CGSize)sizeForSubview {
     return [_delegate sizeForViewAtRow:0];
 }
 
-#pragma mark - FeedbackSubviewDelegate
-
 - (void)didSelectFeedbackSubview:(FeedbackSubview *)feedbackSubview {
     [UIView animateWithDuration:0.25 animations:^{
-        
+        self.currentView.image = feedbackSubview.selectedImage;
+        [self.currentView setCenter:feedbackSubview.center];
+    }];
+}
+
+#pragma mark - FeedbackMoveSubviewDelegate
+
+- (void)viewDidMoveToLocation:(CGPoint)location {
+    
+}
+
+- (void)viewMoveDidStoppedAtLocation:(CGPoint)location {
+    
+    int distance;
+    int minIndex = 0;
+    int minDistance = INT_MAX;
+    
+    for (int i = 0; i < _views.count; i++) {
+        FeedbackSubview *view = [_views objectAtIndex:i];
+        distance = fabs(view.center.x - location.x);
+        if (minDistance > distance) {
+            minIndex = i;
+            minDistance = distance;
+        }
+    }
+    FeedbackSubview *view = [_views objectAtIndex:minIndex];
+    [UIView animateWithDuration:0.15 animations:^{
+        self.currentView.image = view.selectedImage;
+        [self.currentView setCenter:view.center];
     }];
 }
 

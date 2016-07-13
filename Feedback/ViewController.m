@@ -21,6 +21,7 @@
     [super viewDidLoad];
     _feedbackView.datasource = self;
     _feedbackView.delegate = self;
+    _feedbackView.defaultRow = 1;
     [_feedbackView reloadView];
 }
 
@@ -29,15 +30,59 @@
 }
 
 - (NSString *)titleForSelectedViewAtRow:(NSInteger)row {
-    return @"Hello World";
+    NSString *returnValue = @"";
+    switch (row) {
+        case 0:
+            returnValue = @"Bad";
+            break;
+        case 1:
+            returnValue = @"Okay";
+            break;
+        case 2:
+            returnValue = @"Good";
+            break;
+        case 3:
+            returnValue = @"Great";
+            break;
+    }
+    return returnValue;
 }
 
 - (UIImage *)imageForUnselectedViewAtRow:(NSInteger)row {
-    return [[UIImage alloc] init];
-}
+    UIImage *returnValue = [UIImage imageNamed:@""];
+    switch (row) {
+        case 0:
+            returnValue = [UIImage imageNamed:@"Bad"];
+            break;
+        case 1:
+            returnValue = [UIImage imageNamed:@"Okay"];
+            break;
+        case 2:
+            returnValue = [UIImage imageNamed:@"Good"];
+            break;
+        case 3:
+            returnValue = [UIImage imageNamed:@"Great"];
+            break;
+    }
+    return returnValue;}
 
 - (UIImage *)imageForSelectedViewAtRow:(NSInteger)row {
-    return [[UIImage alloc] init];
+    UIImage *returnValue = [UIImage imageNamed:@""];
+    switch (row) {
+        case 0:
+            returnValue = [UIImage imageNamed:@"Bad_Selected"];
+            break;
+        case 1:
+            returnValue = [UIImage imageNamed:@"Okay_Selected"];
+            break;
+        case 2:
+            returnValue = [UIImage imageNamed:@"Good_Selected"];
+            break;
+        case 3:
+            returnValue = [UIImage imageNamed:@"Great_Selected"];
+            break;
+    }
+    return returnValue;
 }
 
 - (CGSize)sizeForViewAtRow:(NSInteger)row {
@@ -45,7 +90,7 @@
 }
 
 -(CGSize)sizeForMoveView {
-    return CGSizeMake(49, 49);
+    return CGSizeMake(60, 60);
 }
 
 @end

@@ -25,6 +25,9 @@
 @property (nonatomic, strong, readonly) UIImageView *feedbackImageView;
 @property (nonatomic, strong, readonly) UILabel *feedbackTitleLabel;
 
+@property (nonatomic, strong) UIImage *unselectedImage;
+@property (nonatomic, strong) UIImage *selectedImage;
+
 @property (nonatomic, weak) id <FeedbackSubviewDelegate> delegate;
 
 -(instancetype)initWithDelegate:(id <FeedbackSubviewDelegate>)delegate;

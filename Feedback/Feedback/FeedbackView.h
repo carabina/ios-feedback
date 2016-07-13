@@ -31,6 +31,8 @@
 @property (nonatomic, weak) id <FeedbackDatasource> datasource;
 @property (nonatomic, weak) id <FeedbackDelegate> delegate;
 
+@property (nonatomic) NSInteger defaultRow;
+
 - (void)reloadView;
 
 @end
