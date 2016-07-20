@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary          = 'Feedback'
 
   s.description      = 'Lorem Lipsum'
-  s.license          = 'MIT'
+  s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.homepage         = 'https://github.com/dgyesbreghs/ios-feedback'
   s.author           = { 'Dylan Gyesbreghs' => 'dgyesbreghs@gmail.com' }
   s.source           = {
