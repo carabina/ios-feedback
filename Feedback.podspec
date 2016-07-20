@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Feedback'
-  s.version          = '0.1'
+  s.version          = '0.1.1'
   s.summary          = 'Super easy to use Feedback screen for iOS'
   s.description      = 'Super easy to use Feedback screen for iOS'
   s.license = { :type => 'MIT', :file => 'LICENSE' }
