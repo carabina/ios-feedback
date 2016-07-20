@@ -5,10 +5,10 @@ Pod::Spec.new do |s|
 
   s.description      = 'Lorem Lipsum'
   s.license          = 'MIT'
-  s.homepage         = 'https://github.com/dgyesbreghs/feedback'
+  s.homepage         = 'https://github.com/dgyesbreghs/ios-feedback'
   s.author           = { 'Dylan Gyesbreghs' => 'dgyesbreghs@gmail.com' }
   s.source           = {
-    git: 'https://github.com/dgyesbreghs/feedback.git',
+    git: 'https://github.com/dgyesbreghs/ios-feedback.git',
     tag: s.version.to_s
   }
   s.social_media_url = 'https://twitter.com/dylangyesbreghs'
