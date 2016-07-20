@@ -1,0 +1,20 @@
+PODS:
+  - Feedback (0.1):
+    - PureLayout
+  - PureLayout (3.0.2)
+
+DEPENDENCIES:
+  - Feedback (from `../`)
+  - PureLayout
+
+EXTERNAL SOURCES:
+  Feedback:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Feedback: 2c64d8f8d7418664c65538c4246a15f8952a5662
+  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
+
+PODFILE CHECKSUM: 77bad7bd668a099caed78f433d7d298b9e19079c
+
+COCOAPODS: 1.1.0.beta.1

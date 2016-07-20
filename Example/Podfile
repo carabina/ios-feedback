@@ -1,0 +1,4 @@
+target 'Feedback' do
+	pod 'PureLayout'
+	pod 'Feedback', :path => '../'
+end
