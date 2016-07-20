@@ -1,9 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = 'Feedback'
   s.version          = '0.1'
-  s.summary          = 'Feedback'
-
-  s.description      = 'Lorem Lipsum'
+  s.summary          = 'Super easy to use Feedback screen for iOS'
+  s.description      = 'Super easy to use Feedback screen for iOS'
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.homepage         = 'https://github.com/dgyesbreghs/ios-feedback'
   s.author           = { 'Dylan Gyesbreghs' => 'dgyesbreghs@gmail.com' }
@@ -12,7 +11,6 @@ Pod::Spec.new do |s|
     tag: s.version.to_s
   }
   s.social_media_url = 'https://twitter.com/dylangyesbreghs'
-
   s.dependency 'PureLayout'
 
   s.ios.deployment_target     = '8.0'
